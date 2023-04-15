@@ -1,0 +1,75 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto&text=0123456789);
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+/******************* Masthead *******************/
+
+.masthead {
+    position: fixed;
+    z-index: 40;
+    top: 0%;
+    background-color: black;
+    width: 100%;
+    height:  40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.mh1 {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    
+}
+
+img {
+    padding-top: 2%;
+}
+
+.mh2 {
+    display: flex;
+    flex: 10;
+}
+
+.mh3 {
+    display: flex;
+    align-self: center;
+    flex: 1;
+}
+
+h1 {
+    font-family: "Roboto", "Raleway";
+    font-size: 1.5rem;
+    color: #fff;
+    margin: auto;
+}
+
+/******************* Structure *******************/
+body {
+    overflow: none;
+    padding: 0%;
+    margin: 0%;
+}
+
+.content {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.selectors {
+    padding-top: 3%;
+}
+
+svg {
+    align-items: center;
+    margin-left: 6%;
+}
+
+svg circle {
+    stroke:#464444; 
+    stroke-width: 1px; 
+    fill: #33afc8a3;
+}

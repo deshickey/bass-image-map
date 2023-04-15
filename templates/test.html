@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Animated Earth Map</title>
+  <style>
+    #map {
+      width: 800px;
+      height: 400px;
+    }
+    .country {
+      fill: #ccc;
+      stroke: #fff;
+    }
+    .country:hover {
+      fill: #a9a9a9;
+    }
+    .tooltip {
+      position: absolute;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    // Data for country statistics
+    const countryData = {
+      "US": { name: "United States", population: 331_000_000, gdp: 21.4_000_000_000_000 },
+      "CN": { name: "China", population: 1_400_000_000, gdp: 16.4_000_000_000_000 },
+      "JP": { name: "Japan", population: 126_000_000, gdp: 6.2_000_000_000_000 },
+      // Add more country data here
+    };
+
+    // Create an SVG element for the map
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("id", "map");
+    document.getElementById("map").appendChild(svg);
+
+    // Loop through the country data and create SVG paths for each country
+    for (const countryId in countryData) {
+      const country = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      country.setAttribute("class", "country");
+      country.setAttribute("id", countryId);
+      // Set the SVG path data for each country, you can use a library or find SVG paths online
+      country.setAttribute("d", "M ..."); // Replace with actual SVG path data for each country
+      svg.appendChild(country);
+    }
+
+    // Add event listener for mouseover event on country paths
+    svg.addEventListener("mouseover", (event) => {
+      const countryId = event.target.getAttribute("id");
+      const country = countryData[countryId];
+      const tooltip = document.createElement("div");
+      tooltip.setAttribute("class", "tooltip");
+      tooltip.innerHTML = `
+        <p>Country: ${country.name}</p>
+        <p>Population: ${country.population}</p>
+        <p>GDP: ${country.gdp}</p>
+      `;
+      tooltip.style.left = event.pageX + "px";
+      tooltip.style.top = event.pageY + "px";
+      document.body.appendChild(tooltip);
+    });
+
+    // Add event listener for mouseout event on country paths
+    svg.addEventListener("mouseout", (event) => {
+      const tooltip = document.querySelector(".tooltip");
+      if (tooltip) {
+        tooltip.remove();
+      }
+    });
+  </script>
+</body>
+</html>

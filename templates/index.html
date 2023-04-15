@@ -1,0 +1,112 @@
+<html lang="en">
+{{template "Head"}}
+<body>
+    {{template "Header"}}
+    <div class="content">
+        <div class="selectors">
+            <select name="note" id="note">
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="C#">C#</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
+            </select>
+            <select name="scale" id="scale">
+                <option value="0">- select a scale -</option>
+                <option value="1">Major</option>
+                <option value="2">Natural Minor</option>
+                <option value="3">Harmonic Major</option>
+                <option value="4">Melodic Major</option>
+                <option value="5">Major Pentatonic</option>
+                <option value="6">Minor Pentatonic</option>
+                <option value="7">Blues</option>
+                <option value="8">Chromatic</option>
+                <option value="9">Half Whole Diminished</option>
+                <option value="10">Whole Half Diminished</option>
+                <option value="11">Bebop Dominant</option>
+                <option value="12">Bebop Major</option>
+                <option value="13">Harmonic Major</option>
+                <option value="14">Hungarian Minor</option>
+            </select>
+        </div>
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  
+        <script type="text/javascript">
+            var note = document.querySelector('#note');
+            const scale = document.querySelector('#scale');
+
+            scale.addEventListener("change", (e) => {
+                //Clear all selected notes
+                const matches = Array.from(
+                    document.getElementsByClassName("note")
+                );
+
+                matches.forEach(m => {
+                    m.style.fill = '#33afc8a3';
+                    m.style.stroke = '#464444';
+                    m.style.strokewidth = '1px';
+                });
+
+
+                // Creates and sends AJAX request
+                var xhr = new XMLHttpRequest();
+                var path = `/scale/${note.value}/${e.target.value}`
+                xhr.open("post", path);
+                console.log("Retrieving notes for scale: ", note.value, e.target.value);
+                xhr.send(note.value, e.target.value);
+                
+                // Return film typeahead AJAX Response
+                xhr.addEventListener("readystatechange", function(){ 
+                   if (xhr.readyState === 4 && xhr.status === 200) {
+                       var notes = JSON.parse(xhr.responseText);
+    
+                       console.log("Scale: ", notes)
+                       for (n  in notes) {
+                        const matches = Array.from(
+                            document.getElementsByClassName(notes[n])
+                        );
+
+                        matches.forEach(m => {
+                            m.style.fill = 'rgb(221, 25, 25)';
+                            m.style.stroke = 'rgb(221, 25, 25)';
+                            m.style.strokewidth = '2px';
+                        });
+                       }
+                   }
+               })
+            });
+
+            note.addEventListener("change", (e) => {
+                // Creates and sends AJAX request
+                var xhr = new XMLHttpRequest();
+                var path = `/scale/${e.target.value}/${scale.value}`
+                xhr.open("post", path);
+                console.log("Retrieving notes for scale: ", note.value, e.target.value);
+                xhr.send(note.value, e.target.value);
+                
+                // Return film typeahead AJAX Response
+                xhr.addEventListener("readystatechange", function(){ 
+                   if (xhr.readyState === 4 && xhr.status === 200) {
+                       var notes = JSON.parse(xhr.responseText);
+    
+                       console.log("Scale: ", notes)
+                       for (n  in notes) {
+                        var matches = Element.getElementsByClassName(n);
+
+                        console.debug(matches.item);
+                       }
+                   }
+               })
+            });
+
+        </script>
+        {{template "Map"}}
+    </div>    
+</body>
+</html>
